@@ -3,8 +3,8 @@ C Programming | End-of-Course Project Work
 
 1. Project Overview: 
 > For my end-of-course project, I built a terminal-based Tic-Tac-Toe game where a human player competes against an AI. I also wanted to
-  explore file I/O so I implemented a persistent leaderboard system that tracks player progress across different sessions using a local
-  leaderboard.txt file.
+  explore file & structures so I implemented a persistent leaderboard system that tracks player progress across different sessions using
+  a local leaderboard.txt file.
 
 2. Core Logic & Features:
 > Core Game Loop: 
