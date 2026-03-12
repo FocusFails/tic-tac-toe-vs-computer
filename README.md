@@ -22,7 +22,9 @@ C Programming | End-of-Course Project Work
     outside the 1–9 range, the program catches the error and prompts them to try again rather than just outright ending the turn.
 
 3. Known Challenges & Future Improvements: 
-> Input Bug: If the player enters a character/string when computer is looking for an integer, the program bugs out. This is a simple fix I have left out for others to solve. 
+> Input Bug: If the player enters a character/string when computer is looking for an integer, the program bugs out. This is a simple fix I have left out for others to solve.
+
+> Score problem: A player cannot have more than a score of 1 because if he wants to play the game again it asks for his name, and this score does not stack but appears on the leaderboard as two seperate entries. This will lead to the next problem which is... 
 
 > The Leaderboard "Append" Problem: Currently, updatelb uses "a" (append mode). This creates a new entry every time a game ends.
   >> The rough plan: Make updatelb() read everything into a massive array, search for exact same names, then add the integers
