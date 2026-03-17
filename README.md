@@ -43,7 +43,7 @@ I'll be writing some documentation down below so I don't forget topics when I wr
 > > To prevent the AI from accidentally making a move during the "thinking" phase, I implemented a simple strategy that makes the AI places a mark, checks for a win, and then immediately resets that exact square to empty (**' '**) before the player ever sees it. 
 
 4. **Known Challenges & Future Improvements:** 
->**[ ] Input Bug:** If the player enters a character/string when computer is looking for an integer, the program bugs out. This is a simple fix I have left out for other group members to solve.
+>**[✅] Input Bug:** If the player enters a character/string when computer is looking for an integer, the program bugs out. This is a simple fix I have left out for other group members to solve.
 
 >**[ ] Score problem:** A player cannot have more than a score of 1 because if he wants to play the game again it asks for his name, and this score does not stack but appears on the leaderboard as two seperate entries. This will lead to the next problem which is... 
 

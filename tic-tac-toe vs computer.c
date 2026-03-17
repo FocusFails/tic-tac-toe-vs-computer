@@ -5,6 +5,7 @@
 void drawBoard(char board[3][3]);
 void resetBoard(char board[3][3]);
 int checkFreeSpace(char board[3][3]);
+int play(char board[3][3]);
 char checkWinner(char board[3][3]);
 void get_player_move(char board[3][3]);
 int check_winning_move(char board[3][3], char mark, int rowcol[2]);
@@ -38,10 +39,11 @@ int main() {
            \nThe board layout is shown below: \n");
     drawBoard(board);
     choice = menu();
+
     while (choice !=3 ) {
         if (choice == 1) {
-                printf("Enter your name: ");
-                scanf("%s", info.name);
+                printf("\nEnter your name: ");
+                scanf(" %s", info.name);
                 resetBoard(board);
                 score = play(board);
                 info.score += score;
@@ -56,7 +58,7 @@ int main() {
     }
         // Quit game
         if (choice == 3) {
-            printf("Pff, okay loser.\
+            printf("\nQuitterrrr.\
                   \nGood-bye :P\n");
             return 0;
         }
@@ -66,12 +68,22 @@ int main() {
 
 int menu() {
     int choice;
-    printf("\nEnter one of the following options:\
-           \n1 - Play\
-           \n2 - Show leaderboard\
-           \n3 - Quit (loser move)\
-           \nYour choice: ");
-    scanf("%d", &choice);
+    while(1) {
+        printf("\nEnter one of the following options:\
+               \n1 - Play\
+               \n2 - Show leaderboard\
+               \n3 - Quit (loser move)\
+               \nYour choice: ");
+
+        // Scan and Validate input data type
+        if (scanf("%d", &choice) != 1) {  // scanf() returns 1 if input matches variable
+        while (getchar() != '\n');  // Clears buffer caused by wrong input
+        printf("\n-___- \
+               \nEnter a valid number.\n");
+        continue;
+        }
+        else break;
+    }
     return choice;
 }
 
@@ -141,16 +153,30 @@ void get_player_move(char board[3][3]) {
     while(1) {
         // Asks for square (1-9)
         printf("Enter a square: ");
-        scanf("%d", &move);
 
-        // Calculate rows & columns
+        // Scan and Validate input data type
+        if (scanf("%d", &move) != 1) {
+        while (getchar() != '\n'); // Clears buffer caused by wrong input
+        printf("\n-___- \
+               \nEnter a valid number.\n");
+        continue;
+        }
+
+        // Calculate row & column
         int row = (move - 1) / 3;
         int col = (move - 1) % 3;
 
         //Validate square
-        if (move<1 || move >9) printf("Invalid: Choose square between 1-9.\n");
+        if (move<1 || move >9) {
+                printf("Invalid: Choose square between 1-9.\n");
+                continue;
+        }
+        else if (board[row][col] != ' ') {
+                printf("Invalid: Choose an empty square.\n");
+                continue;
+        }
 
-        else if (board[row][col] != ' ') printf("Invalid: Choose an empty square.\n");
+        // Place player's mark at chosen square
         else {
             board[row][col] = player_mark;
             break;
@@ -195,7 +221,7 @@ void calculate_computer_move(char board[3][3]) { int row, col, rowcol[2];
     }
 }
 
-// This function looks into the future hehe, I'm quite proud of it :)
+// This function looks into the future
 int check_winning_move(char board[3][3], char mark, int rowcol[2]) {
     for(int i=0;i<3;i++) {
         for(int j=0;j<3;j++) {
@@ -215,8 +241,7 @@ int check_winning_move(char board[3][3], char mark, int rowcol[2]) {
     return 0;
 }
 
-// Checks if player won or computer won
-
+// Checks if there is a winning condition on the board at the instance its called
 char checkWinner(char board[3][3]) {
     int i;
     for(i=0;i<3;i++) {
@@ -260,7 +285,7 @@ void displaylb() {
     return;
 }
 
-/* mmm I understand the problem with this typa function but idk how to fix the problem yet.
+/* mmm I understand the problem with this function but idk how exactly to fix the problem yet.
 What I have to do: Make updatelb() read everything into a massive array, search for exact same names,
 then add the integers assosicated with those names, then finally rewrite that into the original file.
 How do I code allat thooooooooo*/
