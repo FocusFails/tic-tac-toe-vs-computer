@@ -33,7 +33,7 @@ const char computer_mark = 'O';
 
 int main() {
     info.score = 0;
-    int score, choice =0;
+    int result, choice =0;
     float difficulty;
     printf("Welcome to Tic-Tac-Toe vs Computer\
            \nThe board layout is shown below: \n");
@@ -45,8 +45,8 @@ int main() {
                 printf("\nEnter your name: ");
                 scanf(" %s", info.name);
                 resetBoard(board);
-                score = play(board);
-                info.score += score;
+                result = play(board);
+                info.score += result;
                 printf("\nYour current score is: %d", info.score);
                 updatelb(info.name, info.score);
                 }
@@ -58,7 +58,8 @@ int main() {
     }
         // Quit game
         if (choice == 3) {
-            printf("\nQuitterrrr.\
+            printf("\n>:(\
+                   \nQuitter.\
                   \nGood-bye :P\n");
             return 0;
         }
@@ -285,16 +286,55 @@ void displaylb() {
     return;
 }
 
-/* mmm I understand the problem with this function but idk how exactly to fix the problem yet.
-What I have to do: Make updatelb() read everything into a massive array, search for exact same names,
-then add the integers assosicated with those names, then finally rewrite that into the original file.
-How do I code allat thooooooooo*/
+// Sma fixed the function below, so I have no idea how this works but it works
 
 void updatelb(char name[10], int score) {
-    FILE *fp;
-    fp = fopen("leaderboard.txt", "a");
-    if (fp == NULL) {return;}
-    fprintf(fp, "%s,%d\n", info.name, info.score);
+    struct player_info lb[100], temp;  // Array to hold all entries, and temp structure to hold value of lb[i]
+    int count = 0, found = 0;
+
+    // Read all existing entries into the array
+    FILE *fp = fopen("leaderboard.txt", "r");
+    if (fp != NULL) {
+        while (fscanf(fp, " %[^,],%d", lb[count].name, &lb[count].score) != EOF) {
+            count++;
+        }
+        fclose(fp);
+    }
+
+    // Search for matching name and add score if found
+    for (int i = 0; i < count; i++) {
+        if (strcmp(lb[i].name, info.name) == 0) {
+            lb[i].score += score;
+            found = 1;
+            break;
+        }
+    }
+
+    // If name wasn't found, add as new entry
+    if (!found) {
+        strcpy(lb[count].name, name);
+        lb[count].score = score;
+        count++;
+    }
+
+    // Adding a basic array sort based on score - Focus
+
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = i+1; j < count - i - 1; j++) {
+            if (lb[i].score < lb[j].score) {
+                temp = lb[i];
+                lb[i] = lb[j];
+                lb[j] = temp;
+            }
+        }
+    }
+
+    // Rewrite entire file with updated array data
+    fp = fopen("leaderboard.txt", "w");  // "w" overwrites instead of "a" appending
+    if (fp == NULL) { return; }
+    for (int i = 0; i < count; i++) {
+        fprintf(fp, "%s,%d\n", lb[i].name, lb[i].score);
+    }
     fclose(fp);
 }
 
