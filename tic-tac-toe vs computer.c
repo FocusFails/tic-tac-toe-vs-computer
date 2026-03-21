@@ -320,7 +320,7 @@ void updatelb(char name[10], int score) {
     // Adding a basic array sort based on score - Focus
 
     for (int i = 0; i < count - 1; i++) {
-        for (int j = i+1; j < count - i - 1; j++) {
+        for (int j = i+1; j < count; j++) {
             if (lb[i].score < lb[j].score) {
                 temp = lb[i];
                 lb[i] = lb[j];
